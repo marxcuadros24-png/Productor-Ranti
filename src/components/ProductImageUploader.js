@@ -376,8 +376,8 @@ export default function ProductImageUploader({ images = [], onImagesChange, erro
               onClick={closePicker}
               className="mt-5 w-full rounded-xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-600 transition-all hover:bg-stone-50"
             >
-              Cancelar
-            </button>
+            Cancelar
+          </button>
           </div>
         </div>
       )}

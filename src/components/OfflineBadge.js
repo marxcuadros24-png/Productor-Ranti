@@ -25,14 +25,14 @@ export default function OfflineBadge() {
   if (!isOffline) return null;
 
   return (
-    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+    <div className="rounded-2xl border border-green-200 bg-green-50 p-4">
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white shadow-sm">
           <WifiSlash size={14} weight="bold" />
           SIN CONEXIÓN
         </span>
       </div>
-      <p className="mt-2 text-sm text-emerald-700">
+      <p className="mt-2 text-sm text-green-700">
         Se guardará cuando tengas conexión
       </p>
     </div>
