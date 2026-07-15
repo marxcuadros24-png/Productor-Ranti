@@ -1,3 +1,5 @@
+import { productorUno } from '@/lib/productor-data';
+
 const STORAGE_KEY = 'ranti_products';
 
 /**
@@ -40,8 +42,8 @@ export function saveProduct(productData) {
     descripcion: productData.descripcion || '',
     images: productData.images || [],
     image: productData.images?.[0] || null,
-    producer: 'Comunidad Campesina de Qero',
-    location: 'Cusco, Perú',
+    producer: productorUno.name,
+    location: productorUno.location,
     createdAt: new Date().toISOString(),
   };
 

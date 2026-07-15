@@ -76,7 +76,7 @@ export default function ProductForm() {
 
       if (saved) {
         if (typeof navigator !== 'undefined' && navigator.onLine) {
-          setSavedMessage('¡Producto publicado exitosamente! 🎉');
+          setSavedMessage('¡Producto publicado exitosamente!');
         } else {
           setSavedMessage(
             'Producto guardado localmente. Se sincronizará cuando vuelva la conexión.'
