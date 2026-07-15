@@ -116,6 +116,7 @@ export default function PasswordPage() {
                     value={form.currentPassword}
                     onChange={(e) => handleChange('currentPassword', e.target.value)}
                     placeholder="Ingresa tu contraseña actual"
+                    autoComplete="current-password"
                     className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pr-11 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                       errors.currentPassword
                         ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
@@ -149,6 +150,7 @@ export default function PasswordPage() {
                     value={form.newPassword}
                     onChange={(e) => handleChange('newPassword', e.target.value)}
                     placeholder="Mínimo 6 caracteres"
+                    autoComplete="new-password"
                     className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pr-11 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                       errors.newPassword
                         ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
@@ -182,6 +184,7 @@ export default function PasswordPage() {
                     value={form.confirmPassword}
                     onChange={(e) => handleChange('confirmPassword', e.target.value)}
                     placeholder="Repite la nueva contraseña"
+                    autoComplete="new-password"
                     className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pr-11 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                       errors.confirmPassword
                         ? 'border-red-300 focus:border-red-400 focus:ring-red-100'

@@ -125,6 +125,7 @@ export default function UbicacionPage() {
                   value={form.address}
                   onChange={(e) => handleChange('address', e.target.value)}
                   placeholder="Ej: Jr. Dos de Mayo 123, Coracora"
+                  autoComplete="street-address"
                   className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
                     errors.address
                       ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
