@@ -3,6 +3,7 @@ import StatCard from './StatCard';
 import ButtonCard from './ButtonCard';
 import SectionTitle from './SectionTitle';
 import ActivityCard from './ActivityCard';
+import ProductCard from './ProductCard';
 
 import {
   Plant,
@@ -76,7 +77,7 @@ const quickActions = [
   },
 ];
 
-const quickStats = [
+const getQuickStats = (dynamicProductCount) => [
   {
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +85,7 @@ const quickStats = [
       </svg>
     ),
     label: 'Productos',
-    value: '12',
+    value: String(dynamicProductCount || 12),
     color: 'green',
   },
   {
@@ -119,7 +120,7 @@ const quickStats = [
   },
 ];
 
-const recentActivities = [
+const defaultActivities = [
   {
     icon: <Plant size={18} weight="bold" />,
     title: 'Creaste un nuevo producto',
@@ -157,7 +158,12 @@ const recentActivities = [
   },
 ];
 
-export default function ProducerDashboard({ productor = {} }) {
+export default function ProducerDashboard({
+  productor = {},
+  savedProducts = [],
+  savedActivities = [],
+  dynamicProductCount,
+}) {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       {/* Saludo */}
@@ -185,7 +191,7 @@ export default function ProducerDashboard({ productor = {} }) {
 
       {/* Stats */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {quickStats.map((stat) => (
+        {getQuickStats(dynamicProductCount).map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}
       </div>
@@ -210,11 +216,35 @@ export default function ProducerDashboard({ productor = {} }) {
           subtitle="Últimos movimientos en tu cuenta"
         />
         <div className="mt-5 space-y-3">
-          {recentActivities.map((activity, i) => (
+          {[...savedActivities, ...defaultActivities].map((activity, i) => (
             <ActivityCard key={i} {...activity} />
           ))}
         </div>
       </section>
+
+      {/* Mis Productos — show saved products */}
+      {savedProducts.length > 0 && (
+        <section className="mt-10 mb-6">
+          <SectionTitle
+            title="Mis Productos"
+            subtitle={`${savedProducts.length} producto${savedProducts.length > 1 ? 's' : ''} registrado${savedProducts.length > 1 ? 's' : ''}`}
+          />
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {savedProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.nombre || product.name}
+                price={product.precio ?? product.price}
+                unit={product.unit}
+                image={product.image}
+                producer={product.producer || 'Tú'}
+                location={product.location || 'Cusco, Perú'}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

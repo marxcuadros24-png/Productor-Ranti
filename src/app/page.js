@@ -1,6 +1,6 @@
-import ProducerDashboard from '@/components/ProducerDashboard';
+import DashboardContent from '@/components/DashboardContent';
 import { productorUno } from '@/lib/productor-data';
 
 export default function Home() {
-  return <ProducerDashboard productor={productorUno} />;
+  return <DashboardContent productor={productorUno} />;
 }
