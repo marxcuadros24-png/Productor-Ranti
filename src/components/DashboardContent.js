@@ -7,23 +7,38 @@ import {
   getProductCount,
   savedProductsToActivities,
 } from '@/lib/product-service';
+import {
+  getSavedAnimals,
+  savedAnimalsToActivities,
+} from '@/lib/animal-service';
 import { products as staticProducts } from '@/lib/productor-data';
 
 export default function DashboardContent({ productor }) {
   const [savedProducts, setSavedProducts] = useState(getSavedProducts());
-  const [savedActivities, setSavedActivities] = useState(savedProductsToActivities(5));
+  const [savedAnimals, setSavedAnimals] = useState(getSavedAnimals());
+  const [savedActivities, setSavedActivities] = useState([
+    ...savedProductsToActivities(5),
+    ...savedAnimalsToActivities(5),
+  ]);
 
   const loadData = useCallback(() => {
     setSavedProducts(getSavedProducts());
-    setSavedActivities(savedProductsToActivities(5));
+    setSavedAnimals(getSavedAnimals());
+    setSavedActivities([
+      ...savedProductsToActivities(5),
+      ...savedAnimalsToActivities(5),
+    ]);
   }, []);
 
   useEffect(() => {
     loadData();
 
-    // Listen for new products saved from other pages
     window.addEventListener('product-saved', loadData);
-    return () => window.removeEventListener('product-saved', loadData);
+    window.addEventListener('animal-saved', loadData);
+    return () => {
+      window.removeEventListener('product-saved', loadData);
+      window.removeEventListener('animal-saved', loadData);
+    };
   }, [loadData]);
 
   const totalProductCount = getProductCount(staticProducts.length);
@@ -32,6 +47,7 @@ export default function DashboardContent({ productor }) {
     <ProducerDashboard
       productor={productor}
       savedProducts={savedProducts}
+      savedAnimals={savedAnimals}
       savedActivities={savedActivities}
       dynamicProductCount={totalProductCount}
     />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FloppyDisk } from '@phosphor-icons/react/dist/ssr';
+import { FloppyDisk, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import OfflineBadge from './OfflineBadge';
 import ProductImageUploader from './ProductImageUploader';
 import ProductPriceInput from './ProductPriceInput';
@@ -76,7 +76,7 @@ export default function ProductForm() {
 
       if (saved) {
         if (typeof navigator !== 'undefined' && navigator.onLine) {
-          setSavedMessage('¡Producto publicado exitosamente! 🎉');
+          setSavedMessage('¡Producto publicado exitosamente!');
         } else {
           setSavedMessage(
             'Producto guardado localmente. Se sincronizará cuando vuelva la conexión.'
@@ -193,7 +193,7 @@ export default function ProductForm() {
       {/* Success/Info message */}
       {savedMessage && (
         <div className="flex items-start gap-2 rounded-xl bg-green-50 p-3 text-sm text-green-700">
-          <span className="mt-0.5 shrink-0">✅</span>
+          <CheckCircle size={18} weight="fill" className="mt-0.5 shrink-0 text-green-600" />
           <p className="flex-1">{savedMessage}</p>
           <button
             type="button"

@@ -317,7 +317,7 @@ export default function ProductImageUploader({ images = [], onImagesChange, erro
                 </div>
                 <div className="flex-1">
                   <span className="block text-sm font-semibold text-stone-800">
-                    📷 Tomar foto
+                    Tomar foto
                   </span>
                   <span className="block text-xs text-stone-400">
                     Usa la cámara del dispositivo
@@ -339,7 +339,7 @@ export default function ProductImageUploader({ images = [], onImagesChange, erro
                 </div>
                 <div className="flex-1">
                   <span className="block text-sm font-semibold text-stone-800">
-                    🖼️ Elegir de la galería
+                    Elegir de la galería
                   </span>
                   <span className="block text-xs text-stone-400">
                     Selecciona desde tu dispositivo móvil
@@ -361,7 +361,7 @@ export default function ProductImageUploader({ images = [], onImagesChange, erro
                 </div>
                 <div className="flex-1">
                   <span className="block text-sm font-semibold text-stone-800">
-                    📁 Elegir desde archivos
+                    Elegir desde archivos
                   </span>
                   <span className="block text-xs text-stone-400">
                     Examina carpetas en tu computadora
@@ -376,7 +376,7 @@ export default function ProductImageUploader({ images = [], onImagesChange, erro
               onClick={closePicker}
               className="mt-5 w-full rounded-xl border border-stone-200 px-4 py-3 text-sm font-medium text-stone-600 transition-all hover:bg-stone-50"
             >
-              ❌ Cancelar
+              Cancelar
             </button>
           </div>
         </div>
