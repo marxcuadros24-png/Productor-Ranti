@@ -1,17 +1,17 @@
 import { Plant, CheckCircle, Cow, Package } from '@phosphor-icons/react/dist/ssr';
 
 export const productorUno = {
-  name: 'Comunidad Campesina de Qero',
-  location: 'Cusco, Perú',
+  name: 'María Huamán Quispe',
+  location: 'Parinacochas, Ayacucho, Perú',
   image:
     'https://images.unsplash.com/photo-1589923188900-85dae523342b?w=200&h=200&fit=crop&crop=face&auto=format',
-  rating: 4.8,
-  reviewCount: 124,
+  rating: 4.9,
+  reviewCount: 38,
   description:
-    'Comunidad dedicada al cultivo de papas nativas y crianza de alpacas. Producimos con técnicas ancestrales transmitidas por generaciones. Nuestros productos son 100% orgánicos y cultivados a más de 3,800 msnm.',
+    'Soy una agricultora independiente de la provincia de Parinacochas, en las alturas de Ayacucho. Cultivo papas nativas, quinua y habas con métodos tradicionales heredados de mis abuelos. También crío alpacas y ovejas en armonía con la naturaleza. Mis productos son 100% orgánicos, cultivados a más de 3,500 msnm, cerca a la hermosa Laguna de Parinacochas.',
   memberSince: '2023',
-  productCount: 12,
-  animalCount: 8,
+  productCount: 8,
+  animalCount: 5,
 };
 
 const StarIcon = (
@@ -39,10 +39,10 @@ const OrderIcon = (
 );
 
 export const stats = [
-  { icon: StarIcon, label: 'Valoración', value: '4.8', color: 'earth' },
-  { icon: BagIcon, label: 'Productos', value: '12', color: 'green' },
-  { icon: AnimalIcon, label: 'Animales', value: '8', color: 'purple' },
-  { icon: OrderIcon, label: 'Pedidos', value: '45', color: 'blue' },
+  { icon: StarIcon, label: 'Valoración', value: '4.9', color: 'earth' },
+  { icon: BagIcon, label: 'Productos', value: '8', color: 'green' },
+  { icon: AnimalIcon, label: 'Animales', value: '5', color: 'purple' },
+  { icon: OrderIcon, label: 'Pedidos', value: '28', color: 'blue' },
 ];
 
 export const products = [
@@ -53,8 +53,8 @@ export const products = [
     unit: 'kg',
     image:
       'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
   {
     id: 2,
@@ -63,18 +63,18 @@ export const products = [
     unit: 'kg',
     image:
       'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
   {
     id: 3,
-    name: 'Maíz Morado',
-    price: 8.0,
+    name: 'Habas Secas',
+    price: 6.0,
     unit: 'kg',
     image:
       'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
 ];
 
@@ -87,8 +87,8 @@ export const animals = [
     price: 1200,
     image:
       'https://images.unsplash.com/photo-1524024973431-2ad9167462d8?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
   {
     id: 2,
@@ -98,8 +98,8 @@ export const animals = [
     price: 1800,
     image:
       'https://images.unsplash.com/photo-1559532146-fa4fc08a8256?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
   {
     id: 3,
@@ -109,8 +109,8 @@ export const animals = [
     price: 450,
     image:
       'https://images.unsplash.com/photo-1480044965905-02098d419e96?w=600&h=450&fit=crop&auto=format',
-    producer: 'Comunidad de Qero',
-    location: 'Cusco',
+    producer: 'María Huamán Quispe',
+    location: 'Parinacochas, Ayacucho',
   },
 ];
 
@@ -118,28 +118,28 @@ export const activities = [
   {
     icon: <Plant size={18} weight="bold" />,
     title: 'Nuevo producto: Papa Nativa',
-    description: 'Se ha agregado un nuevo lote de papas nativas de temporada.',
+    description: 'María agregó un nuevo lote de papas nativas de la temporada desde su parcela en Parinacochas.',
     time: 'Hace 2 horas',
     type: 'new',
   },
   {
     icon: <CheckCircle size={18} weight="bold" />,
     title: 'Pedido completado',
-    description: 'Pedido de 50 kg de quinua entregado a cliente en Cusco.',
+    description: 'Pedido de 30 kg de quinua entregado a cliente en Ayacucho.',
     time: 'Hace 1 día',
     type: 'sale',
   },
   {
     icon: <Cow size={18} weight="bold" />,
     title: 'Nuevo animal registrado',
-    description: 'Se ha registrado una alpaca Huacaya de 2 años.',
+    description: 'María registró una alpaca Huacaya de 2 años para su venta.',
     time: 'Hace 3 días',
     type: 'default',
   },
   {
     icon: <Package size={18} weight="bold" />,
     title: 'Stock actualizado',
-    description: 'Se ha actualizado el inventario de productos disponibles.',
+    description: 'María actualizó el inventario de productos disponibles en su tienda.',
     time: 'Hace 5 días',
     type: 'alert',
   },
