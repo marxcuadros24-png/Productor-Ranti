@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { es } from 'date-fns/locale';
-import 'react-day-picker/style.css';
+import 'react-day-picker/dist/style.css';
 
 export default function CalendarCard() {
   const [selectedDays, setSelectedDays] = useState([]);
 
-  const currentMonth = new Date(2024, 4, 1); // Mayo 2024
+  const currentMonth = new Date(); // Mes actual
 
   return (
     <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-6">
@@ -45,7 +45,7 @@ export default function CalendarCard() {
           disabled: 'rdp-disabled opacity-30',
         }}
         modifiersClassNames={{
-          selected: '!bg-[#184E22] !text-white hover:!bg-[#184E22] hover:!text-white',
+          selected: '!bg-green-700 !text-white hover:!bg-green-700 hover:!text-white',
           today: 'font-bold text-stone-900',
         }}
         formatters={{

@@ -33,14 +33,6 @@ export default function DashboardContent({ productor }) {
   useEffect(() => {
     loadData();
 
-<<<<<<< HEAD
-    window.addEventListener('product-saved', loadData);
-    window.addEventListener('animal-saved', loadData);
-    return () => {
-      window.removeEventListener('product-saved', loadData);
-      window.removeEventListener('animal-saved', loadData);
-    };
-=======
     window.addEventListener('product-saved', loadData);
     window.addEventListener('animal-saved', loadData);
     return () => {

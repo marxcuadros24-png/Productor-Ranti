@@ -57,7 +57,7 @@ export default function SaveAvailabilityButton() {
         type="button"
         onClick={handleSave}
         disabled={saving}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#184E22] px-8 py-3.5 text-base font-semibold text-white shadow-sm transition-all hover:bg-[#0f3617] hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:min-w-[280px] sm:px-10"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-700 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition-all hover:bg-green-800 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:min-w-[280px] sm:px-10"
       >
         {saving ? (
           <>

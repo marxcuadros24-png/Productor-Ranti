@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FloppyDisk, CheckCircle } from '@phosphor-icons/react/dist/ssr';
 import OfflineBadge from './OfflineBadge';
 import AnimalImageUploader from './AnimalImageUploader';
@@ -31,6 +31,14 @@ export default function AnimalForm() {
   const [errors, setErrors] = useState({ ...initialErrors });
   const [saving, setSaving] = useState(false);
   const [savedMessage, setSavedMessage] = useState('');
+
+  // Auto-clear success message after 4 seconds
+  useEffect(() => {
+    if (savedMessage) {
+      const timer = setTimeout(() => setSavedMessage(''), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [savedMessage]);
 
   const validate = () => {
     const newErrors = { ...initialErrors };
@@ -77,7 +85,7 @@ export default function AnimalForm() {
     return valid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSavedMessage('');
 
