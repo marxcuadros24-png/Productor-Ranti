@@ -30,7 +30,7 @@ export default function PedidosPage() {
   const pendingCount = orders.filter((o) => o.status === 'pendiente').length;
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-stone-50">
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
         {/* ============================== */}
         {/* HEADER                        */}

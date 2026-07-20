@@ -131,7 +131,7 @@ export default function ChatList() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 space-y-3 overflow-y-auto bg-[#F8F7F4] p-5">
+            <div className="flex-1 space-y-3 overflow-y-auto bg-stone-50 p-5">
               {activeMessages.map((msg) => (
                 <MessageBubble key={msg.id} message={msg} />
               ))}
@@ -141,7 +141,7 @@ export default function ChatList() {
             <ChatInput onSend={handleSend} />
           </>
         ) : (
-          <div className="flex flex-1 items-center justify-center bg-[#F8F7F4]">
+          <div className="flex flex-1 items-center justify-center bg-stone-50">
             <div className="text-center">
               <svg
                 className="mx-auto h-12 w-12 text-stone-300"

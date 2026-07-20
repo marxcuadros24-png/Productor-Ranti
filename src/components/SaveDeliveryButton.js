@@ -81,7 +81,7 @@ export default function SaveDeliveryButton({ tipoEntrega, indicaciones, onSave }
         className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white shadow-sm transition-all active:scale-[0.98] sm:w-auto sm:min-w-[280px] sm:px-10 ${
           isDisabled
             ? 'cursor-not-allowed bg-stone-300'
-            : 'bg-[#184E22] hover:bg-[#0f3617] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60'
+            : 'bg-green-700 hover:bg-green-800 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60'
         }`}
       >
         {saving ? (

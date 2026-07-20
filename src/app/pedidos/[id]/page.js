@@ -10,9 +10,8 @@ export default function OrderDetailPage() {
   const order = orders.find((o) => o.id === Number(params.id));
 
   if (!order) {
-    return (
-      <div className="min-h-screen bg-[#F8F7F4]">
-        <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
+    return (    <div className="min-h-screen bg-stone-50">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
           <button
             type="button"
             onClick={() => router.back()}
@@ -39,7 +38,7 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-stone-50">
       <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-2 flex items-center gap-3">
@@ -184,7 +183,7 @@ export default function OrderDetailPage() {
           {order.status === 'pendiente' && (
             <button
               type="button"
-              className="flex-1 rounded-xl bg-[#184E22] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#0f3617] hover:shadow-md"
+              className="flex-1 rounded-xl bg-green-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-800 hover:shadow-md"
             >
               Marcar como enviado
             </button>

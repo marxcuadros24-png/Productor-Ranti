@@ -125,7 +125,7 @@ export const messages = {
     { id: 2, sender: 'me', text: '¡Hola María! Sí, tengo queso paria fresco de esta semana.', time: '10:16 a.m.' },
     { id: 3, sender: 'buyer', text: 'Perfecto, quisiera 10 kg para hoy.', time: '10:18 a.m.' },
     { id: 4, sender: 'me', text: 'Claro, lo preparo. ¿Vienes a la chacra o prefieres que lo lleve a Coracora?', time: '10:20 a.m.' },
-    { id: 5, sender: 'buyer', text: 'Mejor recojo en la chacra, así saludo a los animalitos 😊', time: '10:25 a.m.' },
+    { id: 5, sender: 'buyer', text: 'Mejor recojo en la chacra, así saludo a los animalitos.', time: '10:25 a.m.' },
     { id: 6, sender: 'me', text: 'Jaja, te espero entonces. Llegando nomás me avisas.', time: '10:28 a.m.' },
     { id: 7, sender: 'buyer', text: 'Sí, perfecto. Muchas gracias.', time: '10:32 a.m.' },
   ],
