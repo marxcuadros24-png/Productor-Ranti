@@ -1,7 +1,7 @@
-# RANTI - Marketplace para Productores del Perú
+# RANTI - Conectando Productores del Perú
 
 ## Descripción
-Marketplace digital para productores agrícolas y ganaderos del Perú, especialmente de la sierra peruana. Conecta a productores rurales con compradores directos.
+Plataforma digital para productores agrícolas y ganaderos del Perú, especialmente de la sierra peruana. Conecta a productores rurales con compradores directos.
 
 ## Stack Tecnológico
 - **Framework:** Next.js 16 (App Router)
@@ -20,5 +20,4 @@ Crear una plataforma que permita a los productores de la sierra peruana:
 ## Estado Actual
 - Proyecto Next.js recién inicializado
 - Sin componentes personalizados
-- Sin páginas del Marketplace
 - En fase de desarrollo frontend

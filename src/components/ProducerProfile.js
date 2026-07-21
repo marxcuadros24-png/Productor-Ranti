@@ -56,15 +56,7 @@ export default function ProducerProfile({
           </svg>
           Ver Rutas de Entrega
         </Link>
-        <Link
-          href="/marketplace"
-          className="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-6 py-3 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:border-green-300 hover:text-green-600 hover:shadow-md"
-        >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          Explorar Marketplace
-        </Link>
+
       </div>
 
       {/* Products Section */}
@@ -73,8 +65,6 @@ export default function ProducerProfile({
           <SectionTitle
             title="Productos"
             subtitle="Productos agrícolas disponibles"
-            actionLabel="Ver todos"
-            actionHref="/marketplace"
           />
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
@@ -90,8 +80,6 @@ export default function ProducerProfile({
           <SectionTitle
             title="Animales"
             subtitle="Ganado y animales en venta"
-            actionLabel="Ver todos"
-            actionHref="/marketplace"
           />
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {animals.map((animal) => (

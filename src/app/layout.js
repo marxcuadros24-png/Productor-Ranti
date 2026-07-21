@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "RANTI - Marketplace para Productores del Perú",
+  title: "RANTI - Conectando Productores del Perú",
   description:
     "Conectamos productores agrícolas y ganaderos de la sierra peruana con compradores directos. Productos frescos, crianceros y más.",
 };

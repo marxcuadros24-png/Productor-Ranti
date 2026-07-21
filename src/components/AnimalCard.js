@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export default function AnimalCard({
   id,
   name,
@@ -11,10 +9,7 @@ export default function AnimalCard({
   location,
 }) {
   return (
-    <Link
-      href={`/marketplace/animales/${id}`}
-      className="group block rounded-2xl border border-stone-100 bg-white shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
-    >
+    <div className="group block rounded-2xl border border-stone-100 bg-white shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5">
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-stone-100">
         {image ? (
@@ -84,6 +79,6 @@ export default function AnimalCard({
           </span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
