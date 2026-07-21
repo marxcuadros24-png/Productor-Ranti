@@ -11,7 +11,6 @@ import {
   CalendarBlank,
   Truck,
   ClipboardText,
-  MapTrifold,
   UserCircle,
   CheckCircle,
   Package,
@@ -51,13 +50,6 @@ const quickActions = [
     icon: <ClipboardText size={20} weight="bold" />,
     title: 'Pedidos',
     description: 'Revisa tus pedidos',
-    variant: 'secondary',
-  },
-  {
-    href: '/rutas',
-    icon: <MapTrifold size={20} weight="bold" />,
-    title: 'Rutas',
-    description: 'Organiza tus rutas de entrega',
     variant: 'secondary',
   },
   {
