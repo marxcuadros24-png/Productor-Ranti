@@ -19,17 +19,17 @@ export default function ButtonCard({
   return (
     <Link
       href={href}
-      className={`group flex items-center gap-4 rounded-2xl p-5 transition-all ${variants[variant]}`}
+      className={`group flex items-center gap-4 rounded-2xl p-5 transition-all sm:gap-5 sm:p-6 ${variants[variant]}`}
     >
       {icon && (
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20 text-2xl">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20 sm:h-14 sm:w-14">
           {icon}
         </div>
       )}
       <div className="flex-1">
-        <h3 className="font-semibold">{title}</h3>
+        <h3 className="text-sm font-semibold leading-snug sm:text-base">{title}</h3>
         {description && (
-          <p className="mt-0.5 text-sm opacity-80">{description}</p>
+          <p className="mt-1 text-sm leading-relaxed opacity-80">{description}</p>
         )}
       </div>
       <svg

@@ -19,42 +19,42 @@ import {
 const quickActions = [
   {
     href: '/productos/nuevo',
-    icon: <Plant size={20} weight="bold" />,
+    icon: <Plant size={24} weight="bold" />,
     title: 'Crear Producto',
     description: 'Publica un nuevo producto agrícola',
     variant: 'primary',
   },
   {
     href: '/animales/nuevo',
-    icon: <Cow size={20} weight="bold" />,
+    icon: <Cow size={24} weight="bold" />,
     title: 'Crear Animal',
     description: 'Registra un animal en venta',
     variant: 'secondary',
   },
   {
     href: '/disponibilidad',
-    icon: <CalendarBlank size={20} weight="bold" />,
+    icon: <CalendarBlank size={24} weight="bold" />,
     title: 'Disponibilidad',
     description: 'Gestiona tu disponibilidad',
     variant: 'secondary',
   },
   {
     href: '/entrega',
-    icon: <Truck size={20} weight="bold" />,
+    icon: <Truck size={24} weight="bold" />,
     title: 'Entrega',
     description: 'Configura tus entregas',
     variant: 'secondary',
   },
   {
     href: '/pedidos',
-    icon: <ClipboardText size={20} weight="bold" />,
+    icon: <ClipboardText size={24} weight="bold" />,
     title: 'Pedidos',
     description: 'Revisa tus pedidos',
     variant: 'secondary',
   },
   {
     href: '/perfil',
-    icon: <UserCircle size={20} weight="bold" />,
+    icon: <UserCircle size={24} weight="bold" />,
     title: 'Mi Perfil',
     description: 'Edita tu perfil público',
     variant: 'secondary',
@@ -186,7 +186,7 @@ export default function ProducerDashboard({
           title="Acciones Rápidas"
           subtitle="¿Qué quieres hacer hoy?"
         />
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-5 grid gap-5 grid-cols-3">
           {quickActions.map((action) => (
             <ButtonCard key={action.href} {...action} />
           ))}

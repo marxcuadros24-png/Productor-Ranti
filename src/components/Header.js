@@ -7,7 +7,7 @@ import { useState } from 'react';
 const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/pedidos', label: 'Pedidos' },
-  { href: '/rutas', label: 'Rutas' },
+  { href: '/perfil', label: 'Perfil' },
 ];
 
 export default function Header() {
