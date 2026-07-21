@@ -186,7 +186,7 @@ export default function ProducerDashboard({
           title="Acciones Rápidas"
           subtitle="¿Qué quieres hacer hoy?"
         />
-        <div className="mt-5 grid gap-5 grid-cols-3">
+        <div className="mt-5 grid gap-4 grid-cols-2 sm:gap-5 sm:grid-cols-3">
           {quickActions.map((action) => (
             <ButtonCard key={action.href} {...action} />
           ))}
