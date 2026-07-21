@@ -4,9 +4,8 @@ const footerLinks = [
   {
     title: 'Explorar',
     links: [
-      { label: 'Marketplace', href: '/marketplace' },
       { label: 'Productores', href: '/productores' },
-      { label: 'Categorías', href: '/marketplace' },
+      { label: 'Rutas', href: '/rutas' },
     ],
   },
   {

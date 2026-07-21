@@ -1,7 +1,6 @@
 # Tareas Pendientes - RANTI
 
 ## Pendientes
-- [ ] Página Marketplace (`/marketplace`)
 - [ ] Página Mi Perfil (`/perfil`)
 - [ ] Página Pedidos (`/pedidos`)
 - [ ] Página Rutas (`/rutas`)
@@ -14,8 +13,6 @@
 ## En Progreso
 - [ ] Página de listado de productores (`/productores`)
 - [ ] Página de nuevo pedido (`/pedidos/nuevo`)
-- [ ] Página de detalle de producto (`/marketplace/productos/[id]`)
-- [ ] Página de detalle de animal (`/marketplace/animales/[id]`)
 
 ## Completadas
 - [x] Configuración inicial del proyecto

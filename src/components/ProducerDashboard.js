@@ -12,7 +12,6 @@ import {
   Truck,
   ClipboardText,
   MapTrifold,
-  Storefront,
   UserCircle,
   CheckCircle,
   Package,
@@ -59,13 +58,6 @@ const quickActions = [
     icon: <MapTrifold size={20} weight="bold" />,
     title: 'Rutas',
     description: 'Organiza tus rutas de entrega',
-    variant: 'secondary',
-  },
-  {
-    href: '/marketplace',
-    icon: <Storefront size={20} weight="bold" />,
-    title: 'Marketplace',
-    description: 'Explora el mercado',
     variant: 'secondary',
   },
   {
