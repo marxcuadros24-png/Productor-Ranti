@@ -3,7 +3,7 @@
 > Basado en skill `design-taste-frontend` (Anti-Slop Frontend)
 
 ## Design Read
-"Reading this as: un marketplace B2C para productores agrícolas peruanos, con un lenguaje visual autentico-andino, apoyado en Tailwind + Geist + paleta de colores inspirada en los Andes (verde profundo, pizarra, tierra cálida)."
+"Reading this as: una plataforma B2C para productores agrícolas peruanos, con un lenguaje visual autentico-andino, apoyado en Tailwind + Geist + paleta de colores inspirada en los Andes (verde profundo, pizarra, tierra cálida)."
 
 ## Los 3 Diales
 | Dial | Valor | Descripción |

@@ -16,8 +16,6 @@
     - Disponibilidad → `/disponibilidad`
     - Entrega → `/entrega`
     - Pedidos → `/pedidos`
-    - Rutas → `/rutas`
-    - Marketplace → `/marketplace`
     - Mi Perfil → `/perfil`
   - Actividad reciente (ActivityCard)
 

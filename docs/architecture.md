@@ -21,7 +21,7 @@ ranti/
 2. Componentes pequeños y reutilizables
 3. Imports absolutos con `@/`
 4. Responsive design mobile-first
-5. UI moderna tipo Marketplace
+5. UI moderna enfocada en productores
 
 ## Convenciones
 - Archivos JS (no TS)
