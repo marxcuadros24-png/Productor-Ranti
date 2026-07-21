@@ -3,15 +3,21 @@
 import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { es } from 'date-fns/locale';
+import { motion, AnimatePresence } from 'motion/react';
 import 'react-day-picker/dist/style.css';
 
 export default function CalendarCard() {
   const [selectedDays, setSelectedDays] = useState([]);
 
-  const currentMonth = new Date(); // Mes actual
+  const currentMonth = new Date();
 
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-6">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="rounded-2xl bg-white p-5 shadow-sm sm:p-6"
+    >
       <DayPicker
         mode="multiple"
         selected={selectedDays}
@@ -64,24 +70,32 @@ export default function CalendarCard() {
       />
 
       {/* Selected days summary */}
-      {selectedDays.length > 0 && (
-        <div className="mt-4 rounded-xl bg-green-50 px-4 py-3">
-          <p className="text-sm font-medium text-green-800">
-            {selectedDays.length} día{selectedDays.length !== 1 ? 's' : ''} seleccionado{selectedDays.length !== 1 ? 's' : ''}
-          </p>
-          <p className="mt-0.5 text-xs text-green-600">
-            {selectedDays
-              .sort((a, b) => a - b)
-              .map((d) =>
-                d.toLocaleDateString('es-PE', {
-                  day: 'numeric',
-                  month: 'short',
-                }),
-              )
-              .join(', ')}
-          </p>
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {selectedDays.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
+            exit={{ opacity: 0, y: -8, height: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="mt-4 overflow-hidden rounded-xl bg-green-50 px-4 py-3"
+          >
+            <p className="text-sm font-medium text-green-800">
+              {selectedDays.length} día{selectedDays.length !== 1 ? 's' : ''} seleccionado{selectedDays.length !== 1 ? 's' : ''}
+            </p>
+            <p className="mt-0.5 text-xs text-green-600">
+              {selectedDays
+                .sort((a, b) => a - b)
+                .map((d) =>
+                  d.toLocaleDateString('es-PE', {
+                    day: 'numeric',
+                    month: 'short',
+                  }),
+                )
+                .join(', ')}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }

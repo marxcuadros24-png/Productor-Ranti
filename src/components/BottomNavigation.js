@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'motion/react';
 
 const navItems = [
   {
@@ -45,14 +46,21 @@ export default function BottomNavigation() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-all ${
-                isActive
-                  ? 'text-green-600'
-                  : 'text-stone-500 hover:text-stone-700'
-              }`}
+              className="relative flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-xs font-medium transition-all"
             >
-              {item.icon}
-              <span>{item.label}</span>
+              {isActive && (
+                <motion.span
+                  layoutId="bottom-nav-active"
+                  className="absolute -top-1 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full bg-green-600"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
+              <span className={`transition-colors ${isActive ? 'text-green-600' : 'text-stone-500'}`}>
+                {item.icon}
+              </span>
+              <span className={`transition-colors ${isActive ? 'text-green-600' : 'text-stone-500 hover:text-stone-700'}`}>
+                {item.label}
+              </span>
             </Link>
           );
         })}

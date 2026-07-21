@@ -25,7 +25,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Slide-up animation for action sheet (mobile) */
+/* Slide-up animation for action sheet (mobile) — fallback if JS disabled */
 @keyframes slide-up {
   from {
     transform: translateY(100%);
@@ -41,7 +41,7 @@ body {
   animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Fade-in animation for desktop modal */
+/* Fade-in animation for desktop modal — fallback if JS disabled */
 @keyframes fade-in {
   from {
     transform: scale(0.95);
@@ -70,4 +70,14 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a29e;
+}
+
+/* Reduced motion — disable motion animations for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

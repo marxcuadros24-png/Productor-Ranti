@@ -1,3 +1,7 @@
+'use client';
+
+import { motion } from 'motion/react';
+
 export default function ProductCard({
   id,
   name,
@@ -8,14 +12,23 @@ export default function ProductCard({
   location,
 }) {
   return (
-    <div className="group block rounded-2xl border border-stone-100 bg-white shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      whileHover={{ y: -4, transition: { duration: 0.15 } }}
+      className="group block rounded-2xl border border-stone-100 bg-white shadow-sm transition-shadow hover:shadow-lg"
+    >
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-stone-100">
         {image ? (
-          <img
+          <motion.img
             src={image}
             alt={name}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover"
+            whileHover={{ scale: 1.08 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-green-50 to-stone-100">
@@ -24,9 +37,14 @@ export default function ProductCard({
             </svg>
           </div>
         )}
-        <div className="absolute right-2 top-2 rounded-lg bg-white/90 px-2.5 py-1 text-sm font-semibold text-green-700 shadow-sm backdrop-blur-sm">
+        <motion.div
+          initial={{ opacity: 0, x: 8 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15, duration: 0.25 }}
+          className="absolute right-2 top-2 rounded-lg bg-white/90 px-2.5 py-1 text-sm font-semibold text-green-700 shadow-sm backdrop-blur-sm"
+        >
           S/ {price} / {unit}
-        </div>
+        </motion.div>
       </div>
 
       {/* Info */}
@@ -75,6 +93,6 @@ export default function ProductCard({
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

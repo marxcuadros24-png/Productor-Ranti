@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from 'motion/react';
 import ProfileCard from './ProfileCard';
 import StatCard from './StatCard';
 import ButtonCard from './ButtonCard';
@@ -142,6 +145,15 @@ const defaultActivities = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.05, duration: 0.35, ease: 'easeOut' },
+  }),
+};
+
 export default function ProducerDashboard({
   productor = {},
   savedProducts = [],
@@ -151,32 +163,52 @@ export default function ProducerDashboard({
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       {/* Saludo */}
-      <div className="mb-6">
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="mb-6"
+      >
         <h1 className="text-2xl font-bold text-stone-800 sm:text-3xl">
           ¡Bienvenido, Productor!
         </h1>
         <p className="mt-1 text-sm text-stone-500">
           Gestiona tus productos, animales y más desde tu panel de control.
         </p>
-      </div>
+      </motion.div>
 
       {/* Profile Card */}
-      <ProfileCard
-        name={productor.name}
-        location={productor.location}
-        image={productor.image}
-        rating={productor.rating}
-        reviewCount={productor.reviewCount}
-        description={productor.description}
-        memberSince={productor.memberSince}
-        productCount={productor.productCount}
-        animalCount={productor.animalCount}
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05, duration: 0.35 }}
+      >
+        <ProfileCard
+          name={productor.name}
+          location={productor.location}
+          image={productor.image}
+          rating={productor.rating}
+          reviewCount={productor.reviewCount}
+          description={productor.description}
+          memberSince={productor.memberSince}
+          productCount={productor.productCount}
+          animalCount={productor.animalCount}
+        />
+      </motion.div>
 
       {/* Stats */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {getQuickStats(dynamicProductCount).map((stat) => (
-          <StatCard key={stat.label} {...stat} />
+        {getQuickStats(dynamicProductCount).map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            custom={i}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-20px' }}
+          >
+            <StatCard {...stat} />
+          </motion.div>
         ))}
       </div>
 
@@ -187,8 +219,17 @@ export default function ProducerDashboard({
           subtitle="¿Qué quieres hacer hoy?"
         />
         <div className="mt-5 grid gap-4 grid-cols-2 sm:gap-5 sm:grid-cols-3">
-          {quickActions.map((action) => (
-            <ButtonCard key={action.href} {...action} />
+          {quickActions.map((action, i) => (
+            <motion.div
+              key={action.href}
+              custom={i}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-20px' }}
+            >
+              <ButtonCard {...action} />
+            </motion.div>
           ))}
         </div>
       </section>
@@ -201,12 +242,21 @@ export default function ProducerDashboard({
         />
         <div className="mt-5 space-y-3">
           {[...savedActivities, ...defaultActivities].map((activity, i) => (
-            <ActivityCard key={i} {...activity} />
+            <motion.div
+              key={i}
+              custom={i}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-20px' }}
+            >
+              <ActivityCard {...activity} />
+            </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Mis Productos — show saved products */}
+      {/* Mis Productos */}
       {savedProducts.length > 0 && (
         <section className="mt-10 mb-6">
           <SectionTitle
@@ -214,17 +264,25 @@ export default function ProducerDashboard({
             subtitle={`${savedProducts.length} producto${savedProducts.length > 1 ? 's' : ''} registrado${savedProducts.length > 1 ? 's' : ''}`}
           />
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {savedProducts.map((product) => (
-              <ProductCard
+            {savedProducts.map((product, i) => (
+              <motion.div
                 key={product.id}
-                id={product.id}
-                name={product.nombre || product.name}
-                price={product.precio ?? product.price}
-                unit={product.unit}
-                image={product.image}
-                producer={product.producer || 'Tú'}
-                location={product.location || 'Cusco, Perú'}
-              />
+                custom={i}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <ProductCard
+                  id={product.id}
+                  name={product.nombre || product.name}
+                  price={product.precio ?? product.price}
+                  unit={product.unit}
+                  image={product.image}
+                  producer={product.producer || 'Tú'}
+                  location={product.location || 'Cusco, Perú'}
+                />
+              </motion.div>
             ))}
           </div>
         </section>

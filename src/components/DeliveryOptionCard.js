@@ -2,6 +2,7 @@
 
 import { House, Storefront, Truck, Check } from '@phosphor-icons/react/dist/ssr';
 import { useCallback } from 'react';
+import { motion } from 'motion/react';
 
 const iconMap = {
   house: <House size={24} weight="bold" />,
@@ -41,12 +42,15 @@ export default function DeliveryOptionCard({
   );
 
   return (
-    <div
+    <motion.div
+      layout
       role="radio"
       aria-checked={isSelected}
       tabIndex={0}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       className={`group flex cursor-pointer items-center gap-4 rounded-2xl border-2 p-5 transition-all sm:p-6 ${
         isSelected
           ? 'border-green-500 bg-green-50/50 shadow-md'
@@ -78,16 +82,25 @@ export default function DeliveryOptionCard({
 
       {/* Radio indicator */}
       <div className="shrink-0">
-        <div
+        <motion.div
+          animate={isSelected ? { scale: 1 } : { scale: 0.9 }}
           className={`flex h-6 w-6 items-center justify-center rounded-full border-2 transition-all ${
             isSelected
               ? 'border-green-600 bg-green-600'
               : 'border-stone-300 group-hover:border-stone-400'
           }`}
         >
-          {isSelected && <Check size={14} weight="bold" className="text-white" />}
-        </div>
+          {isSelected && (
+            <motion.div
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+            >
+              <Check size={14} weight="bold" className="text-white" />
+            </motion.div>
+          )}
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
