@@ -34,12 +34,17 @@ export default function UbicacionPage() {
   const [errors, setErrors] = useState({});
 
   // Autocomplete state
-  const [query, setQuery] = useState(form.address || '');
+  const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const debounceRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  // Sincronizar query cuando se carga el form
+  useEffect(() => {
+    setQuery(form.address || '');
+  }, []);
 
   // Cerrar sugerencias al hacer clic fuera
   useEffect(() => {
@@ -122,6 +127,8 @@ export default function UbicacionPage() {
   function validate() {
     const errs = {};
     if (!form.address?.trim()) errs.address = 'La dirección es obligatoria.';
+    if (!form.latitude?.trim()) errs.latitude = 'La latitud es obligatoria.';
+    if (!form.longitude?.trim()) errs.longitude = 'La longitud es obligatoria.';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   }
@@ -139,6 +146,15 @@ export default function UbicacionPage() {
     }, 600);
   }
 
+  function handleReset() {
+    setForm({ ...DEFAULT_LOCATION });
+    setQuery(DEFAULT_LOCATION.address);
+    setErrors({});
+    setSuggestions([]);
+    setIsOpen(false);
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
   const mapsUrl =
     form.latitude && form.longitude
       ? `https://www.google.com/maps?q=${form.latitude},${form.longitude}`
@@ -152,18 +168,8 @@ export default function UbicacionPage() {
           href="/perfil"
           className="inline-flex items-center gap-1.5 text-sm text-stone-500 transition-colors hover:text-green-600"
         >
-          <svg
-            className="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           Volver a Perfil
         </Link>
@@ -181,7 +187,7 @@ export default function UbicacionPage() {
                 Ubicación GPS
               </h1>
               <p className="mt-1 text-sm text-stone-500">
-                Busca tu dirección y las coordenadas se obtendrán automáticamente.
+                Busca tu dirección o ingresa las coordenadas manualmente.
               </p>
             </div>
           </div>
@@ -191,12 +197,10 @@ export default function UbicacionPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Address with Autocomplete */}
           <div className="rounded-2xl border border-stone-100 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-stone-800">
-              Buscar dirección
-            </h2>
+            <h2 className="text-lg font-semibold text-stone-800">Buscar dirección</h2>
             <p className="mb-5 text-sm text-stone-500">
               Escribe tu dirección y selecciona la opción correcta. Las
-              coordenadas se completarán solas.
+              coordenadas se completarán automáticamente.
             </p>
 
             <div className="space-y-5">
@@ -234,19 +238,8 @@ export default function UbicacionPage() {
                         fill="none"
                         viewBox="0 0 24 24"
                       >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                        />
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
                     </div>
                   )}
@@ -265,14 +258,8 @@ export default function UbicacionPage() {
                           onClick={() => handleSelect(s)}
                           className="flex w-full gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-green-50"
                         >
-                          <MapPin
-                            size={16}
-                            weight="bold"
-                            className="mt-0.5 shrink-0 text-stone-400"
-                          />
-                          <span className="text-stone-700">
-                            {s.display_name}
-                          </span>
+                          <MapPin size={16} weight="bold" className="mt-0.5 shrink-0 text-stone-400" />
+                          <span className="text-stone-700">{s.display_name}</span>
                         </button>
                       </li>
                     ))}
@@ -282,10 +269,7 @@ export default function UbicacionPage() {
 
               {/* Punto de referencia */}
               <div>
-                <label
-                  htmlFor="reference"
-                  className="mb-1.5 block text-sm font-medium text-stone-700"
-                >
+                <label htmlFor="reference" className="mb-1.5 block text-sm font-medium text-stone-700">
                   Punto de referencia{' '}
                   <span className="text-stone-400">(opcional)</span>
                 </label>
@@ -301,34 +285,60 @@ export default function UbicacionPage() {
             </div>
           </div>
 
-          {/* Coordinates (auto, readonly) */}
+          {/* Coordinates (editable + auto) */}
           <div className="rounded-2xl border border-stone-100 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-stone-800">
-              Coordenadas
-            </h2>
+            <h2 className="text-lg font-semibold text-stone-800">Coordenadas</h2>
             <p className="mb-5 text-sm text-stone-500">
-              Se completan automáticamente al seleccionar una dirección.
+              Se completan automáticamente al seleccionar una dirección. También puedes editarlas manualmente.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-stone-700">
+                <label htmlFor="latitude" className="mb-1.5 block text-sm font-medium text-stone-700">
                   Latitud
                 </label>
-                <div className="flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-100 px-4 py-2.5 text-sm text-stone-500">
-                  <Crosshair size={14} weight="bold" className="text-green-500" />
-                  {form.latitude || '—'}
+                <div className="relative">
+                  <input
+                    id="latitude"
+                    type="text"
+                    value={form.latitude}
+                    onChange={(e) => handleChange('latitude', e.target.value)}
+                    placeholder="Ej: -15.0183"
+                    className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pl-9 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                      errors.latitude
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
+                        : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
+                    }`}
+                  />
+                  <Crosshair size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500" />
                 </div>
+                {errors.latitude && (
+                  <p className="mt-1 text-xs text-red-500">{errors.latitude}</p>
+                )}
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-stone-700">
+                <label htmlFor="longitude" className="mb-1.5 block text-sm font-medium text-stone-700">
                   Longitud
                 </label>
-                <div className="flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-100 px-4 py-2.5 text-sm text-stone-500">
-                  <Crosshair size={14} weight="bold" className="text-green-500" />
-                  {form.longitude || '—'}
+                <div className="relative">
+                  <input
+                    id="longitude"
+                    type="text"
+                    value={form.longitude}
+                    onChange={(e) => handleChange('longitude', e.target.value)}
+                    placeholder="Ej: -73.7861"
+                    className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pl-9 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                      errors.longitude
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
+                        : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
+                    }`}
+                  />
+                  <Crosshair size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500" />
                 </div>
+                {errors.longitude && (
+                  <p className="mt-1 text-xs text-red-500">{errors.longitude}</p>
+                )}
               </div>
             </div>
 
@@ -348,12 +358,13 @@ export default function UbicacionPage() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-3">
-            <Link
-              href="/perfil"
+            <button
+              type="button"
+              onClick={handleReset}
               className="rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-medium text-stone-600 transition-all hover:border-stone-300 hover:text-stone-800"
             >
-              Cancelar
-            </Link>
+              Restablecer
+            </button>
 
             {saved && (
               <div className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 shadow-sm">
@@ -369,24 +380,9 @@ export default function UbicacionPage() {
             >
               {saving ? (
                 <>
-                  <svg
-                    className="h-4 w-4 animate-spin"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    />
+                  <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
                   Guardando...
                 </>

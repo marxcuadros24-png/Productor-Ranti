@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'motion/react';
 import ProfileCard from './ProfileCard';
 import StatCard from './StatCard';
 import ProductCard from './ProductCard';
@@ -9,15 +6,6 @@ import AnimalCard from './AnimalCard';
 import ActivityCard from './ActivityCard';
 import SectionTitle from './SectionTitle';
 import BannerCard from './BannerCard';
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.05, duration: 0.35, ease: 'easeOut' },
-  }),
-};
 
 export default function ProducerProfile({
   productor = {},
@@ -29,60 +17,47 @@ export default function ProducerProfile({
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       {/* Profile Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-      >
-        <ProfileCard
-          name={productor.name}
-          location={productor.location}
-          image={productor.image}
-          rating={productor.rating}
-          reviewCount={productor.reviewCount}
-          description={productor.description}
-          memberSince={productor.memberSince}
-          productCount={productor.productCount}
-          animalCount={productor.animalCount}
-        />
-      </motion.div>
+      <ProfileCard
+        name={productor.name}
+        location={productor.location}
+        image={productor.image}
+        rating={productor.rating}
+        reviewCount={productor.reviewCount}
+        description={productor.description}
+        memberSince={productor.memberSince}
+        productCount={productor.productCount}
+        animalCount={productor.animalCount}
+      />
 
       {/* Stats Grid */}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            custom={i}
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-20px' }}
-          >
-            <StatCard {...stat} />
-          </motion.div>
+        {stats.map((stat) => (
+          <StatCard key={stat.label} {...stat} />
         ))}
       </div>
 
       {/* Action Buttons */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1, duration: 0.35 }}
-        className="mt-8 flex flex-col gap-3 sm:flex-row"
-      >
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-          <Link
-            href="/pedidos/nuevo"
-            className="inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-green-600 px-5 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md sm:w-auto sm:px-8 sm:py-3 sm:text-base"
-          >
-            <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-            </svg>
-            Solicitar Pedido
-          </Link>
-        </motion.div>
-      </motion.div>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Link
+          href="/pedidos/nuevo"
+          className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+          </svg>
+          Solicitar Pedido
+        </Link>
+        <Link
+          href="/rutas"
+          className="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-6 py-3 text-sm font-semibold text-stone-700 shadow-sm transition-all hover:border-green-300 hover:text-green-600 hover:shadow-md"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+          </svg>
+          Ver Rutas de Entrega
+        </Link>
+
+      </div>
 
       {/* Products Section */}
       {products.length > 0 && (
@@ -92,17 +67,8 @@ export default function ProducerProfile({
             subtitle="Productos agrícolas disponibles"
           />
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product, i) => (
-              <motion.div
-                key={product.id}
-                custom={i}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-40px' }}
-              >
-                <ProductCard {...product} />
-              </motion.div>
+            {products.map((product) => (
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
         </section>
@@ -116,17 +82,8 @@ export default function ProducerProfile({
             subtitle="Ganado y animales en venta"
           />
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {animals.map((animal, i) => (
-              <motion.div
-                key={animal.id}
-                custom={i}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-40px' }}
-              >
-                <AnimalCard {...animal} />
-              </motion.div>
+            {animals.map((animal) => (
+              <AnimalCard key={animal.id} {...animal} />
             ))}
           </div>
         </section>
@@ -141,16 +98,7 @@ export default function ProducerProfile({
           />
           <div className="mt-5 space-y-3">
             {activities.map((activity, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-20px' }}
-              >
-                <ActivityCard {...activity} />
-              </motion.div>
+              <ActivityCard key={i} {...activity} />
             ))}
           </div>
         </section>
