@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   User,
@@ -9,11 +10,32 @@ import {
   Camera,
 } from '@phosphor-icons/react/dist/ssr';
 import { APP_VERSION, APP_TAGLINE } from '@/lib/app-config';
-import { productorUno } from '@/lib/productor-data';
+import { loadProductorData } from '@/lib/productor-data';
 
 export default function PerfilPage() {
   const router = useRouter();
-  const { name, location, image, description } = productorUno;
+  const [productor, setProductor] = useState({ name: '', location: '', image: '', description: '' });
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const data = loadProductorData();
+    setProductor(data);
+    setLoaded(true);
+  }, []);
+
+  const { name, location, image, description } = productor;
+
+  if (!loaded) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[650px] animate-pulse space-y-6">
+          <div className="mx-auto h-28 w-28 rounded-full bg-stone-200" />
+          <div className="mx-auto h-6 w-48 rounded-xl bg-stone-200" />
+          <div className="mx-auto h-64 rounded-2xl bg-stone-100" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -40,6 +62,7 @@ export default function PerfilPage() {
             {/* Botón flotante de cámara */}
             <button
               type="button"
+              onClick={() => router.push('/configuracion')}
               className="absolute -bottom-1 -right-1 flex h-9 w-9 items-center justify-center rounded-full bg-green-600 text-white shadow-md transition-all hover:bg-green-700 hover:shadow-lg active:scale-95"
               aria-label="Cambiar foto de perfil"
             >
@@ -66,6 +89,7 @@ export default function PerfilPage() {
           {/* Botón cambiar foto */}
           <button
             type="button"
+            onClick={() => router.push('/configuracion')}
             className="mt-4 inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-medium text-stone-700 shadow-sm transition-all hover:border-green-300 hover:text-green-600 hover:shadow-md active:scale-[0.98]"
           >
             <Camera size={15} weight="bold" />
