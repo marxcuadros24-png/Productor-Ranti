@@ -1,5 +1,26 @@
 import { Plant, CheckCircle, Cow, Package } from '@phosphor-icons/react/dist/ssr';
 
+const STORAGE_KEY = 'ranti-productor-config';
+
+/**
+ * Carga los datos del productor desde localStorage.
+ * Si hay datos guardados, los fusiona con los valores por defecto.
+ * @param {object} defaults - Datos por defecto (opcional)
+ * @returns {object} Datos del productor
+ */
+export function loadProductorData(defaults = null) {
+  if (typeof window === 'undefined') return defaults || productorUno;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const base = defaults || productorUno;
+      return { ...base, ...parsed };
+    }
+  } catch {}
+  return defaults || productorUno;
+}
+
 export const productorUno = {
   name: 'Comunidad Campesina de Qero',
   location: 'Cusco, Perú',

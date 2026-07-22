@@ -1,8 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { MapPin, CheckCircle, MagnifyingGlass } from '@phosphor-icons/react/dist/ssr';
+import {
+  MapPin,
+  MagnifyingGlass,
+  Crosshair,
+  CheckCircle,
+} from '@phosphor-icons/react/dist/ssr';
 
 const STORAGE_KEY = 'ranti-ubicacion';
 
@@ -28,12 +33,85 @@ export default function UbicacionPage() {
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Autocomplete state
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const debounceRef = useRef(null);
+  const wrapperRef = useRef(null);
+
+  // Sincronizar query cuando se carga el form
+  useEffect(() => {
+    setQuery(form.address || '');
+  }, []);
+
+  // Cerrar sugerencias al hacer clic fuera
+  useEffect(() => {
+    function handleClick(e) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  // Limpiar feedback después de 3s
   useEffect(() => {
     if (saved) {
       const t = setTimeout(() => setSaved(false), 3000);
       return () => clearTimeout(t);
     }
   }, [saved]);
+
+  // Búsqueda con debounce
+  function handleQueryChange(value) {
+    setQuery(value);
+    setForm((prev) => ({ ...prev, address: value }));
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    if (value.trim().length < 3) {
+      setSuggestions([]);
+      setIsOpen(false);
+      return;
+    }
+
+    debounceRef.current = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/autocomplete?q=${encodeURIComponent(value)}`);
+        const data = await res.json();
+        setSuggestions(data.suggestions || []);
+        setIsOpen(true);
+      } catch {
+        setSuggestions([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 400);
+  }
+
+  // Seleccionar una sugerencia
+  function handleSelect(suggestion) {
+    setQuery(suggestion.display_name);
+    setForm((prev) => ({
+      ...prev,
+      address: suggestion.display_name,
+      latitude: suggestion.lat,
+      longitude: suggestion.lon,
+    }));
+    setIsOpen(false);
+    setSuggestions([]);
+    if (errors.address) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next.address;
+        return next;
+      });
+    }
+  }
 
   function handleChange(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -68,9 +146,19 @@ export default function UbicacionPage() {
     }, 600);
   }
 
-  const mapsUrl = form.latitude && form.longitude
-    ? `https://www.google.com/maps?q=${form.latitude},${form.longitude}`
-    : null;
+  function handleReset() {
+    setForm({ ...DEFAULT_LOCATION });
+    setQuery(DEFAULT_LOCATION.address);
+    setErrors({});
+    setSuggestions([]);
+    setIsOpen(false);
+    localStorage.removeItem(STORAGE_KEY);
+  }
+
+  const mapsUrl =
+    form.latitude && form.longitude
+      ? `https://www.google.com/maps?q=${form.latitude},${form.longitude}`
+      : null;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
@@ -99,7 +187,7 @@ export default function UbicacionPage() {
                 Ubicación GPS
               </h1>
               <p className="mt-1 text-sm text-stone-500">
-                Configura tu ubicación para que los compradores te encuentren fácilmente.
+                Busca tu dirección o ingresa las coordenadas manualmente.
               </p>
             </div>
           </div>
@@ -107,38 +195,83 @@ export default function UbicacionPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Address */}
+          {/* Address with Autocomplete */}
           <div className="rounded-2xl border border-stone-100 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-stone-800">Dirección</h2>
+            <h2 className="text-lg font-semibold text-stone-800">Buscar dirección</h2>
             <p className="mb-5 text-sm text-stone-500">
-              Tu dirección se muestra en tu perfil público.
+              Escribe tu dirección y selecciona la opción correcta. Las
+              coordenadas se completarán automáticamente.
             </p>
 
             <div className="space-y-5">
-              <div>
-                <label htmlFor="address" className="mb-1.5 block text-sm font-medium text-stone-700">
-                  Dirección completa
+              {/* Autocomplete Input */}
+              <div ref={wrapperRef} className="relative">
+                <label
+                  htmlFor="address-search"
+                  className="mb-1.5 block text-sm font-medium text-stone-700"
+                >
+                  Dirección
                 </label>
-                <input
-                  id="address"
-                  type="text"
-                  value={form.address}
-                  onChange={(e) => handleChange('address', e.target.value)}
-                  placeholder="Ej: Jr. Dos de Mayo 123, Coracora"
-                  className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
-                    errors.address
-                      ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
-                      : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    id="address-search"
+                    type="text"
+                    value={query}
+                    onChange={(e) => handleQueryChange(e.target.value)}
+                    placeholder="Ej: Coracora, Parinacochas, Ayacucho"
+                    autoComplete="off"
+                    className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pl-10 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                      errors.address
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
+                        : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
+                    }`}
+                  />
+                  <MagnifyingGlass
+                    size={16}
+                    weight="bold"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"
+                  />
+                  {loading && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <svg
+                        className="h-4 w-4 animate-spin text-stone-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
                 {errors.address && (
                   <p className="mt-1 text-xs text-red-500">{errors.address}</p>
                 )}
+
+                {/* Suggestions dropdown */}
+                {isOpen && suggestions.length > 0 && (
+                  <ul className="absolute z-20 mt-1 w-full overflow-hidden rounded-xl border border-stone-200 bg-white shadow-lg">
+                    {suggestions.map((s, i) => (
+                      <li key={i}>
+                        <button
+                          type="button"
+                          onClick={() => handleSelect(s)}
+                          className="flex w-full gap-3 px-4 py-3 text-left text-sm transition-colors hover:bg-green-50"
+                        >
+                          <MapPin size={16} weight="bold" className="mt-0.5 shrink-0 text-stone-400" />
+                          <span className="text-stone-700">{s.display_name}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
+              {/* Punto de referencia */}
               <div>
                 <label htmlFor="reference" className="mb-1.5 block text-sm font-medium text-stone-700">
-                  Punto de referencia <span className="text-stone-400">(opcional)</span>
+                  Punto de referencia{' '}
+                  <span className="text-stone-400">(opcional)</span>
                 </label>
                 <input
                   id="reference"
@@ -152,11 +285,11 @@ export default function UbicacionPage() {
             </div>
           </div>
 
-          {/* Coordinates */}
+          {/* Coordinates (editable + auto) */}
           <div className="rounded-2xl border border-stone-100 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-stone-800">Coordenadas</h2>
             <p className="mb-5 text-sm text-stone-500">
-              Ingresa las coordenadas de tu ubicación para mostrarlas en el mapa.
+              Se completan automáticamente al seleccionar una dirección. También puedes editarlas manualmente.
             </p>
 
             <div className="grid gap-5 sm:grid-cols-2">
@@ -164,18 +297,21 @@ export default function UbicacionPage() {
                 <label htmlFor="latitude" className="mb-1.5 block text-sm font-medium text-stone-700">
                   Latitud
                 </label>
-                <input
-                  id="latitude"
-                  type="text"
-                  value={form.latitude}
-                  onChange={(e) => handleChange('latitude', e.target.value)}
-                  placeholder="Ej: -15.0183"
-                  className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
-                    errors.latitude
-                      ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
-                      : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    id="latitude"
+                    type="text"
+                    value={form.latitude}
+                    onChange={(e) => handleChange('latitude', e.target.value)}
+                    placeholder="Ej: -15.0183"
+                    className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pl-9 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                      errors.latitude
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
+                        : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
+                    }`}
+                  />
+                  <Crosshair size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500" />
+                </div>
                 {errors.latitude && (
                   <p className="mt-1 text-xs text-red-500">{errors.latitude}</p>
                 )}
@@ -185,18 +321,21 @@ export default function UbicacionPage() {
                 <label htmlFor="longitude" className="mb-1.5 block text-sm font-medium text-stone-700">
                   Longitud
                 </label>
-                <input
-                  id="longitude"
-                  type="text"
-                  value={form.longitude}
-                  onChange={(e) => handleChange('longitude', e.target.value)}
-                  placeholder="Ej: -73.7861"
-                  className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
-                    errors.longitude
-                      ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
-                      : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    id="longitude"
+                    type="text"
+                    value={form.longitude}
+                    onChange={(e) => handleChange('longitude', e.target.value)}
+                    placeholder="Ej: -73.7861"
+                    className={`w-full rounded-xl border bg-stone-50 px-4 py-2.5 pl-9 text-sm text-stone-800 placeholder-stone-400 transition-colors focus:bg-white focus:outline-none focus:ring-2 ${
+                      errors.longitude
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-100'
+                        : 'border-stone-200 focus:border-green-400 focus:ring-green-100'
+                    }`}
+                  />
+                  <Crosshair size={14} weight="bold" className="absolute left-3 top-1/2 -translate-y-1/2 text-green-500" />
+                </div>
                 {errors.longitude && (
                   <p className="mt-1 text-xs text-red-500">{errors.longitude}</p>
                 )}
@@ -219,12 +358,13 @@ export default function UbicacionPage() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-3">
-            <Link
-              href="/perfil"
+            <button
+              type="button"
+              onClick={handleReset}
               className="rounded-xl border border-stone-200 bg-white px-5 py-2.5 text-sm font-medium text-stone-600 transition-all hover:border-stone-300 hover:text-stone-800"
             >
-              Cancelar
-            </Link>
+              Restablecer
+            </button>
 
             {saved && (
               <div className="flex items-center gap-2 rounded-xl bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 shadow-sm">
@@ -256,9 +396,18 @@ export default function UbicacionPage() {
           </div>
         </form>
 
-        {/* Info notice */}
+        {/* Powered by */}
         <p className="mt-6 text-center text-xs text-stone-400">
-          Los cambios se guardan localmente. En el futuro podrás sincronizarlos con tu cuenta.
+          Búsqueda por{' '}
+          <a
+            href="https://locationiq.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-stone-500 underline transition-colors hover:text-stone-700"
+          >
+            LocationIQ
+          </a>
+          . Los cambios se guardan localmente.
         </p>
       </div>
     </div>
